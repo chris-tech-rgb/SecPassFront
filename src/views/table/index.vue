@@ -8,35 +8,34 @@
       fit
       highlight-current-row
     >
-      <el-table-column align="center" label="ID" width="95">
+      <el-table-column align="center" label="网站">
         <template slot-scope="scope">
-          {{ scope.$index }}
+          <span>{{ scope.row.website }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="Title">
+
+      <el-table-column align="center" label="用户名" width="200">
         <template slot-scope="scope">
-          {{ scope.row.title }}
+          <span>{{ scope.row.username }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="Author" width="110" align="center">
+
+      <el-table-column align="center" label="密码" width="200">
         <template slot-scope="scope">
-          <span>{{ scope.row.author }}</span>
+          <span>{{ scope.row.password }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="Pageviews" width="110" align="center">
-        <template slot-scope="scope">
-          {{ scope.row.pageviews }}
-        </template>
-      </el-table-column>
-      <el-table-column class-name="status-col" label="Status" width="110" align="center">
-        <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{ scope.row.status }}</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" prop="created_at" label="Display_time" width="200">
+
+      <el-table-column align="center" label="最后更新日期" width="200">
         <template slot-scope="scope">
           <i class="el-icon-time" />
-          <span>{{ scope.row.display_time }}</span>
+          <span>{{ scope.row.last_update }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column align="center" label="安全性" width="200">
+        <template slot-scope="scope">
+          <span>{{ scope.row.safety }}</span>
         </template>
       </el-table-column>
     </el-table>
