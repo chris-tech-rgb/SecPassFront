@@ -1,3 +1,4 @@
+<!--suppress ALL -->
 <template>
   <div class="app-container">
     <el-table
@@ -20,9 +21,11 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="密码" width="200">
+      <el-table-column align="center" label="密码" width="250">
         <template slot-scope="scope">
-          <span>{{ scope.row.password }}</span>
+          <span v-if="showPassword">{{ scope.row.password }}</span>
+          <span v-if="!showPassword">{{ '****************' }}</span>
+          <button title="显示/隐藏" style="position: absolute; right: 10px; padding: 0; border: none;" @click="hidePassword">&#128065;</button>
         </template>
       </el-table-column>
 
@@ -59,7 +62,8 @@ export default {
   data() {
     return {
       list: null,
-      listLoading: true
+      listLoading: true,
+      showPassword: false
     }
   },
   created() {
@@ -72,6 +76,9 @@ export default {
         this.list = response.data.items
         this.listLoading = false
       })
+    },
+    hidePassword() {
+      this.showPassword = !this.showPassword
     }
   }
 }
