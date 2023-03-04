@@ -23,9 +23,7 @@
 
       <el-table-column align="center" label="密码" width="250">
         <template slot-scope="scope">
-          <span v-if="showPassword">{{ scope.row.password }}</span>
-          <span v-if="!showPassword">{{ '****************' }}</span>
-          <button title="显示/隐藏" style="position: absolute; right: 10px; padding: 0; border: none;" @click="hidePassword">&#128065;</button>
+          <el-input type="password" onfocus="this.blur()" v-model="scope.row.password" show-password />
         </template>
       </el-table-column>
 
@@ -62,8 +60,7 @@ export default {
   data() {
     return {
       list: null,
-      listLoading: true,
-      showPassword: false
+      listLoading: true
     }
   },
   created() {
@@ -76,9 +73,6 @@ export default {
         this.list = response.data.items
         this.listLoading = false
       })
-    },
-    hidePassword() {
-      this.showPassword = !this.showPassword
     }
   }
 }
