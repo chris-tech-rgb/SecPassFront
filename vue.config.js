@@ -1,3 +1,5 @@
+// noinspection JSUnusedGlobalSymbols
+
 'use strict'
 const path = require('path')
 const defaultSettings = require('./src/settings.js')
@@ -35,9 +37,9 @@ module.exports = {
     overlay: {
       warnings: false,
       errors: true
-    },
+    }
     // Remove when online server is used.
-//    before: require('./mock/mock-server.js')
+    //    before: require('./mock/mock-server.js')
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that
@@ -104,7 +106,7 @@ module.exports = {
                 },
                 elementUI: {
                   name: 'chunk-elementUI', // split elementUI into a single package
-                  priority: 20, // the weight needs to be larger than libs and app or it will be packaged into libs or app
+                  priority: 20, // the weight needs to be larger than libs and app, or it will be packaged into libs or app
                   test: /[\\/]node_modules[\\/]_?element-ui(.*)/ // in order to adapt to cnpm
                 },
                 commons: {

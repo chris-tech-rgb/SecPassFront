@@ -1,3 +1,5 @@
+// noinspection JSCheckFunctionSignatures,JSUnresolvedFunction
+
 import { formatTime } from '@/utils/index.js'
 
 describe('Utils:formatTime', () => {
@@ -17,7 +19,7 @@ describe('Utils:formatTime', () => {
     expect(formatTime(+new Date() - 60 * 60 * 2 * 1000 + retrofit)).toBe('2小时前')
   })
   it('less one day', () => {
-    expect(formatTime(+new Date() - 60 * 60 * 24 * 1 * 1000)).toBe('1天前')
+    expect(formatTime(+new Date() - 60 * 60 * 24 * 1000)).toBe('1天前')
   })
   it('more than one day', () => {
     expect(formatTime(d)).toBe('7月13日17时54分')

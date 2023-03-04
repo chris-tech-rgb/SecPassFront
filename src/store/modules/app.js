@@ -1,3 +1,5 @@
+// noinspection JSUnresolvedFunction
+
 import Cookies from 'js-cookie'
 
 const state = {

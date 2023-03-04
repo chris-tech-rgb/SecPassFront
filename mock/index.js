@@ -1,3 +1,5 @@
+// noinspection JSPrimitiveTypeWrapperUsage,JSUnresolvedFunction
+
 const Mock = require('mockjs')
 const { param2Obj } = require('./utils')
 
@@ -29,7 +31,7 @@ function mockXHR() {
 
   function XHR2ExpressReqWrap(respond) {
     return function(options) {
-      let result = null
+      let result
       if (respond instanceof Function) {
         const { body, type, url } = options
         // https://expressjs.com/en/4x/api.html#req

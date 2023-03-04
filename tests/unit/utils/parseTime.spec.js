@@ -1,3 +1,5 @@
+// noinspection JSUnresolvedFunction
+
 import { parseTime } from '@/utils/index.js'
 
 describe('Utils:parseTime', () => {

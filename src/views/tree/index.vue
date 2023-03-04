@@ -2,6 +2,7 @@
   <div class="app-container">
     <el-input v-model="filterText" placeholder="Filter keyword" style="margin-bottom:30px;" />
 
+    <!--suppress HtmlUnknownBooleanAttribute -->
     <el-tree
       ref="tree2"
       :data="data2"

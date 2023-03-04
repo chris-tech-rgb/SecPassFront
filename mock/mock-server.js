@@ -1,3 +1,5 @@
+// noinspection JSUnresolvedFunction
+
 const chokidar = require('chokidar')
 const bodyParser = require('body-parser')
 const chalk = require('chalk')
@@ -52,8 +54,8 @@ module.exports = app => {
   }))
 
   const mockRoutes = registerRoutes(app)
-  var mockRoutesLength = mockRoutes.mockRoutesLength
-  var mockStartIndex = mockRoutes.mockStartIndex
+  let mockRoutesLength = mockRoutes.mockRoutesLength
+  let mockStartIndex = mockRoutes.mockStartIndex
 
   // watch files, hot reload mock server
   chokidar.watch(mockDir, {

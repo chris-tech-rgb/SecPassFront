@@ -1,3 +1,4 @@
+<!--suppress CssUnusedSymbol, CssUnusedSymbol -->
 <template>
   <div :class="classObj" class="app-wrapper">
     <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
@@ -50,6 +51,7 @@ export default {
 }
 </script>
 
+<!--suppress SassScssUnresolvedMixin -->
 <style lang="scss" scoped>
   @import "~@/styles/mixin.scss";
   @import "~@/styles/variables.scss";
@@ -59,6 +61,7 @@ export default {
     position: relative;
     height: 100%;
     width: 100%;
+    //noinspection ALL
     &.mobile.openSidebar{
       position: fixed;
       top: 0;

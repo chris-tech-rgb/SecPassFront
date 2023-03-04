@@ -1,3 +1,4 @@
+<!--suppress HtmlRequiredAltAttribute -->
 <template>
   <div class="sidebar-logo-container" :class="{'collapse':collapse}">
     <transition name="sidebarLogoFade">
@@ -32,10 +33,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+//noinspection ALL
 .sidebarLogoFade-enter-active {
   transition: opacity 1.5s;
 }
 
+//noinspection ALL
 .sidebarLogoFade-enter,
 .sidebarLogoFade-leave-to {
   opacity: 0;
@@ -75,7 +78,7 @@ export default {
 
   &.collapse {
     .sidebar-logo {
-      margin-right: 0px;
+      margin-right: 0;
     }
   }
 }

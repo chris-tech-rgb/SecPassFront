@@ -1,9 +1,11 @@
+<!--suppress CssUnusedSymbol -->
 <template>
   <div class="dashboard-container">
     <div class="dashboard-text">name: {{ name }}</div>
   </div>
 </template>
 
+<!--suppress JSAnnotator -->
 <script>
 import { mapGetters } from 'vuex'
 
@@ -18,6 +20,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+//noinspection ALL
 .dashboard {
   &-container {
     margin: 30px;

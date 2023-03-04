@@ -1,3 +1,5 @@
+// noinspection JSUnresolvedFunction,JSUnusedGlobalSymbols,JSUnresolvedVariable
+
 import { login, logout, getInfo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
@@ -32,7 +34,7 @@ const actions = {
   login({ commit }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
-      var md5 = require('md5')
+      const md5 = require('md5')
       login({ username: username.trim(), password: md5(password) }).then(response => {
         const { data } = response
         commit('SET_TOKEN', data.token)
@@ -82,7 +84,7 @@ const actions = {
   // remove token
   resetToken({ commit }) {
     return new Promise(resolve => {
-      removeToken() // must remove  token  first
+      removeToken() // must remove token first
       commit('RESET_STATE')
       resolve()
     })

@@ -1,3 +1,4 @@
+<!--suppress HtmlRequiredAltAttribute, XmlHighlighting -->
 <template>
   <div class="navbar">
     <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
@@ -10,6 +11,7 @@
           <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
           <i class="el-icon-caret-bottom" />
         </div>
+        <!--suppress HtmlDeprecatedAttribute -->
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
           <router-link to="/">
             <el-dropdown-item>
@@ -22,6 +24,7 @@
           <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
             <el-dropdown-item>Docs</el-dropdown-item>
           </a>
+          <!--suppress HtmlUnknownBooleanAttribute -->
           <el-dropdown-item divided @click.native="logout">
             <span style="display:block;">Log Out</span>
           </el-dropdown-item>
@@ -31,6 +34,7 @@
   </div>
 </template>
 
+<!--suppress JSAnnotator -->
 <script>
 import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
@@ -93,6 +97,7 @@ export default {
       outline: none;
     }
 
+    //noinspection ALL
     .right-menu-item {
       display: inline-block;
       padding: 0 8px;
@@ -101,6 +106,7 @@ export default {
       color: #5a5e66;
       vertical-align: text-bottom;
 
+      //noinspection ALL
       &.hover-effect {
         cursor: pointer;
         transition: background .3s;

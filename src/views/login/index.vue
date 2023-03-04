@@ -1,3 +1,4 @@
+<!--suppress JSUnresolvedFunction -->
 <template>
   <div class="login-container">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
@@ -83,9 +84,6 @@ export default {
   },
   watch: {
     $route: {
-      handler: function(route) {
-        this.redirect = route.query && route.query.redirect
-      },
       immediate: true
     }
   },
@@ -136,6 +134,7 @@ $cursor: #fff;
 
 /* reset element-ui css */
 .login-container {
+  //noinspection ALL
   .el-input {
     display: inline-block;
     height: 47px;
@@ -143,21 +142,22 @@ $cursor: #fff;
 
     input {
       background: transparent;
-      border: 0px;
+      border: 0;
       -webkit-appearance: none;
-      border-radius: 0px;
+      border-radius: 0;
       padding: 12px 5px 12px 15px;
       color: $light_gray;
       height: 47px;
       caret-color: $cursor;
 
       &:-webkit-autofill {
-        box-shadow: 0 0 0px 1000px $bg inset !important;
+        box-shadow: 0 0 0 1000px $bg inset !important;
         -webkit-text-fill-color: $cursor !important;
       }
     }
   }
 
+  //noinspection ALL
   .el-form-item {
     border: 1px solid rgba(255, 255, 255, 0.1);
     background: rgba(0, 0, 0, 0.1);
@@ -187,6 +187,7 @@ $light_gray:#eee;
     overflow: hidden;
   }
 
+  //noinspection ALL
   .tips {
     font-size: 14px;
     color: #fff;
@@ -213,7 +214,7 @@ $light_gray:#eee;
     .title {
       font-size: 26px;
       color: $light_gray;
-      margin: 0px auto 40px auto;
+      margin: 0 auto 40px auto;
       text-align: center;
       font-weight: bold;
     }

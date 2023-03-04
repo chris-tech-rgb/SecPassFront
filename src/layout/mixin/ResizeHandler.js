@@ -1,3 +1,5 @@
+// noinspection JSUnresolvedFunction,JSUnusedLocalSymbols
+
 import store from '@/store'
 
 const { body } = document

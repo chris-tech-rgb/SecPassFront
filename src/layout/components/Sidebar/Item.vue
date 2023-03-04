@@ -33,6 +33,7 @@ export default {
 </script>
 
 <style scoped>
+/*noinspection ALL*/
 .sub-el-icon {
   color: currentColor;
   width: 1em;
