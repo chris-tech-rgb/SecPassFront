@@ -8,7 +8,7 @@
     <div class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
-          <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
+          <img src="https://cdn-icons-png.flaticon.com/512/1691/1691940.png" class="user-avatar">
           <i class="el-icon-caret-bottom" />
         </div>
         <!--suppress HtmlDeprecatedAttribute -->
