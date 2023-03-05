@@ -17,6 +17,7 @@
     "axios": "0.18.1",
     "body-parser": "^1.20.2",
     "core-js": "3.6.5",
+    "crypto-js": "^4.1.1",
     "dotenv": "^16.0.3",
     "element-ui": "2.13.2",
     "js-cookie": "2.2.0",
@@ -26,7 +27,6 @@
     "path-to-regexp": "2.4.0",
     "pg": "^8.9.0",
     "vue": "2.6.10",
-    "vue-cryptojs": "^2.3.1",
     "vue-router": "3.0.6",
     "vuex": "3.1.0"
   },
