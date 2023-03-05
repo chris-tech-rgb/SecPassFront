@@ -14,19 +14,14 @@
         <!--suppress HtmlDeprecatedAttribute -->
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
           <router-link to="/">
-            <el-dropdown-item>
-              Home
-            </el-dropdown-item>
+            <el-dropdown-item>首页</el-dropdown-item>
           </router-link>
-          <a target="_blank" href="https://github.com/PanJiaChen/vue-admin-template/">
-            <el-dropdown-item>Github</el-dropdown-item>
-          </a>
-          <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
-            <el-dropdown-item>Docs</el-dropdown-item>
+          <a target="_blank" href="https://github.com/chris-tech-rgb/SecPassFront">
+            <el-dropdown-item>源代码</el-dropdown-item>
           </a>
           <!--suppress HtmlUnknownBooleanAttribute -->
           <el-dropdown-item divided @click.native="logout">
-            <span style="display:block;">Log Out</span>
+            <span style="display:block;">注销</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
