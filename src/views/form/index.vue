@@ -8,7 +8,7 @@
         <el-input v-model="form.username" />
       </el-form-item>
       <el-form-item label="密码">
-        <el-input v-model="form.password" type="password" show-password="false" />
+        <el-input v-model="form.password" type="password" show-password />
       </el-form-item>
       <el-form-item label="PIN">
         <el-input v-model="form.pin" maxlength="6" />

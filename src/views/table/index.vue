@@ -26,7 +26,7 @@
       <el-table-column align="center" label="密码" width="250">
         <!--suppress HtmlDeprecatedAttribute -->
         <template slot-scope="scope">
-          <el-input v-model="scope.row.password" type="password" show-password="false" onfocus="this.blur()" />
+          <el-input v-model="scope.row.password" type="password" show-password onfocus="this.blur()" />
         </template>
       </el-table-column>
 
@@ -52,7 +52,7 @@
         <div class="title-container">
           <h3 class="title">身份验证</h3>
         </div>
-        <el-input v-model="pin" maxlength="6" placeholder="PIN" type="password" show-password="false" />
+        <el-input v-model="pin" maxlength="6" placeholder="PIN" type="password" show-password />
         <div class="confirm">
           <el-button @click="submitPIN">确认</el-button>
         </div>
