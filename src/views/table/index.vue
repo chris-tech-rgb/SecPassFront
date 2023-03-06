@@ -111,7 +111,7 @@ export default {
         this.list = this.original_list
       } else {
         const new_list = []
-        for (const row of this.list) {
+        for (const row of this.original_list) {
           if (row.password.includes(this.key_word) || row.username.includes(this.key_word) || row.website.includes(this.key_word)) {
             new_list.push(row)
           }
