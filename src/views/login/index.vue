@@ -3,8 +3,10 @@
   <div class="login-container">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
 
-      <div class="title-container">
-        <h3 class="title">登录SecPass</h3>
+      <!--suppress HtmlDeprecatedAttribute -->
+      <div class="title-container" align="center">
+        <img src="https://cdn-icons-png.flaticon.com/512/1691/1691940.png" width="150px" height="150px" alt="">
+        <h3 class="title">SecPass</h3>
       </div>
 
       <el-form-item prop="username">

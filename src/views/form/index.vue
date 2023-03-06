@@ -10,9 +10,16 @@
       <el-form-item label="密码">
         <el-input v-model="form.password" class="item" type="password" show-password clearable />
       </el-form-item>
-      <el-form-item label="PIN">
-        <el-input v-model="form.pin" class="item" maxlength="6" clearable />
-      </el-form-item>
+      <el-tooltip
+        class="box-item"
+        effect="dark"
+        content="PIN为至多6位任意字符"
+        placement="bottom-start"
+      >
+        <el-form-item label="PIN">
+          <el-input v-model="form.pin" class="item" maxlength="6" type="password" show-password clearable />
+        </el-form-item>
+      </el-tooltip>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">提交</el-button>
         <el-button @click="onCancel">取消</el-button>
