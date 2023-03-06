@@ -51,7 +51,7 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: '首页', icon: 'dashboard' }
+      meta: { title: '首页', icon: 'example' }
     }]
   },
 
@@ -89,8 +89,8 @@ export const constantRoutes = [
     redirect: '/nested/menu1',
     name: 'Nested',
     meta: {
-      title: 'Nested',
-      icon: 'nested'
+      title: '财务中心',
+      icon: 'finance'
     },
     children: [
       {
