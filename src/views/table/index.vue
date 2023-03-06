@@ -101,6 +101,8 @@ export default {
     submitPIN() {
       const CryptoJS = require('crypto-js')
       for (const row of this.list) {
+        row.website = CryptoJS.AES.decrypt(row.website, this.pin).toString(CryptoJS.enc.Utf8)
+        row.username = CryptoJS.AES.decrypt(row.username, this.pin).toString(CryptoJS.enc.Utf8)
         row.password = CryptoJS.AES.decrypt(row.password, this.pin).toString(CryptoJS.enc.Utf8)
       }
       this.usePIN = false
