@@ -53,7 +53,7 @@
         <div class="title-container">
           <h3 class="title">身份验证</h3>
         </div>
-        <el-input v-model="pin" maxlength="6" placeholder="PIN" type="password" show-password @keyup.enter="submitPIN" />
+        <el-input v-model="pin" maxlength="6" placeholder="PIN" type="password" show-password @keyup.enter.native="submitPIN" />
         <div class="confirm">
           <el-button @click="submitPIN">确认</el-button>
         </div>
