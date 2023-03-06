@@ -106,8 +106,9 @@ export default {
           row.username = CryptoJS.AES.decrypt(row.username, this.pin).toString(CryptoJS.enc.Utf8)
           row.password = CryptoJS.AES.decrypt(row.password, this.pin).toString(CryptoJS.enc.Utf8)
         } catch (error) {
-          this.usePIN = false
-          return
+          row.website = null
+          row.username = null
+          row.password = null
         }
       }
       this.usePIN = false
