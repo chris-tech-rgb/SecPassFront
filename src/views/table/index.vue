@@ -31,7 +31,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="最后更新日期" width="200">
+      <el-table-column align="center" label="最后更新日期" width="100">
         <!--suppress HtmlDeprecatedAttribute -->
         <template slot-scope="scope">
           <i class="el-icon-time" />
@@ -39,7 +39,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="安全性" width="200">
+      <el-table-column align="center" label="安全性" width="100">
         <!--suppress HtmlDeprecatedAttribute -->
         <template slot-scope="scope">
           <!--suppress JSUnresolvedVariable -->

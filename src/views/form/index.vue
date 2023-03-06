@@ -2,16 +2,16 @@
   <div class="app-container">
     <el-form ref="form" :model="form" label-width="120px">
       <el-form-item label="网站">
-        <el-input v-model="form.website" />
+        <el-input v-model="form.website" class="item" clearable />
       </el-form-item>
       <el-form-item label="用户名">
-        <el-input v-model="form.username" />
+        <el-input v-model="form.username" class="item" clearable />
       </el-form-item>
       <el-form-item label="密码">
-        <el-input v-model="form.password" type="password" show-password />
+        <el-input v-model="form.password" class="item" type="password" show-password clearable />
       </el-form-item>
       <el-form-item label="PIN">
-        <el-input v-model="form.pin" maxlength="6" />
+        <el-input v-model="form.pin" class="item" maxlength="6" clearable />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">提交</el-button>
@@ -50,3 +50,11 @@ export default {
   }
 }
 </script>
+
+<style>
+
+.item {
+  width: 400px;
+}
+
+</style>
