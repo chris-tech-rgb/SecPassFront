@@ -99,7 +99,6 @@ export default {
       })
     },
     submitPIN() {
-      this.original_list = this.list
       const CryptoJS = require('crypto-js')
       for (const row of this.list) {
         try {
@@ -107,7 +106,7 @@ export default {
           row.username = CryptoJS.AES.decrypt(row.username, this.pin).toString(CryptoJS.enc.Utf8)
           row.password = CryptoJS.AES.decrypt(row.password, this.pin).toString(CryptoJS.enc.Utf8)
         } catch (error) {
-          this.list = this.original_list
+          this.usePIN = false
           return
         }
       }
