@@ -1,5 +1,6 @@
 <template>
   <div class="app-container">
+    <el-input v-model="key_word" />
     <!--suppress VueUnrecognizedDirective, HtmlUnknownBooleanAttribute -->
     <el-table
       v-loading="listLoading"
@@ -52,7 +53,7 @@
         <div class="title-container">
           <h3 class="title">身份验证</h3>
         </div>
-        <el-input v-model="pin" maxlength="6" placeholder="PIN" type="password" show-password />
+        <el-input v-model="pin" maxlength="6" placeholder="PIN" type="password" show-password @keyup.enter="submitPIN" />
         <div class="confirm">
           <el-button @click="submitPIN">确认</el-button>
         </div>
@@ -81,7 +82,8 @@ export default {
       list: null,
       listLoading: true,
       usePIN: true,
-      pin: ''
+      pin: '',
+      key_word: ''
     }
   },
   created() {
