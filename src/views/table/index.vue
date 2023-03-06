@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-input v-model="key_word" />
+    <el-input v-model="key_word" class="search" placeholder="🔎︎ 搜索网址、用户名或密码" clearable @keyup.native="search" />
     <!--suppress VueUnrecognizedDirective, HtmlUnknownBooleanAttribute -->
     <el-table
       v-loading="listLoading"
@@ -53,7 +53,7 @@
         <div class="title-container">
           <h3 class="title">身份验证</h3>
         </div>
-        <el-input v-model="pin" maxlength="6" placeholder="PIN" type="password" show-password @keyup.enter.native="submitPIN" />
+        <el-input v-model="pin" maxlength="6" placeholder="PIN" type="password" show-password clearable @keyup.enter.native="submitPIN" />
         <div class="confirm">
           <el-button @click="submitPIN">确认</el-button>
         </div>
@@ -83,7 +83,8 @@ export default {
       listLoading: true,
       usePIN: true,
       pin: '',
-      key_word: ''
+      key_word: '',
+      original_list: null
     }
   },
   created() {
@@ -103,6 +104,20 @@ export default {
         row.password = CryptoJS.AES.decrypt(row.password, this.pin).toString(CryptoJS.enc.Utf8)
       }
       this.usePIN = false
+      this.original_list = this.list
+    },
+    search() {
+      if (this.key_word === '') {
+        this.list = this.original_list
+      } else {
+        const new_list = []
+        for (const row of this.list) {
+          if (row.password.includes(this.key_word) || row.username.includes(this.key_word) || row.website.includes(this.key_word)) {
+            new_list.push(row)
+          }
+        }
+        this.list = new_list
+      }
     }
   }
 }
@@ -142,5 +157,10 @@ export default {
 .confirm {
   margin: 10px auto 0 auto;
   text-align: center;
+}
+
+.search {
+  width: 570px;
+  margin-bottom: 20px;
 }
 </style>
