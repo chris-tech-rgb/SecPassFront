@@ -143,12 +143,12 @@ export const constantRoutes = [
   },
 
   {
-    path: 'external-link',
+    path: 'about',
     component: Layout,
     children: [
       {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
+        path: 'https://github.com/chris-tech-rgb/SecPass-Official',
+        meta: { title: '关于', icon: 'about' }
       }
     ]
   },
