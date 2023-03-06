@@ -60,7 +60,7 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/center/table',
     name: 'Center',
-    meta: { title: '密码中心', icon: 'el-icon-s-help' },
+    meta: { title: '安全中心', icon: 'security' },
     children: [
       {
         path: 'table',
