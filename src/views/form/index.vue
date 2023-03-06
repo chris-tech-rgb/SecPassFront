@@ -13,7 +13,7 @@
       <el-tooltip
         class="box-item"
         effect="dark"
-        content="PIN为至多6位任意字符"
+        content="PIN为6位及以下任意字符"
         placement="bottom-start"
       >
         <el-form-item label="PIN">
