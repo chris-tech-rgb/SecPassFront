@@ -48,7 +48,7 @@
       </el-table-column>
     </el-table>
 
-    <div v-if="usePIN" class="popup">
+    <div v-if="authentication" class="popup">
       <div>
         <div class="title-container">
           <h3 class="title">身份验证</h3>
@@ -81,7 +81,7 @@ export default {
     return {
       list: null,
       listLoading: true,
-      usePIN: true,
+      authentication: true,
       pin: '',
       key_word: '',
       original_list: null
@@ -111,7 +111,7 @@ export default {
           row.password = null
         }
       }
-      this.usePIN = false
+      this.authentication = false
       this.original_list = this.list
     },
     search() {
