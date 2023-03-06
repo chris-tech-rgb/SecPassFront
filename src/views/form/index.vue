@@ -17,7 +17,7 @@
         placement="bottom-start"
       >
         <el-form-item label="PIN">
-          <el-input-number v-model="form.pin" class="item" maxlength="6" type="password" show-password clearable />
+          <el-input v-model="form.pin" class="item" maxlength="6" type="password" show-password clearable />
         </el-form-item>
       </el-tooltip>
       <el-form-item>

@@ -66,7 +66,7 @@ export const constantRoutes = [
         path: 'table',
         name: 'Table',
         component: () => import('@/views/table/index'),
-        meta: { title: '密码列表', icon: 'table' }
+        meta: { title: '密码中心', icon: 'table' }
       },
       {
         path: 'form',
@@ -75,10 +75,10 @@ export const constantRoutes = [
         meta: { title: '添加密码', icon: 'form' }
       },
       {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
+        path: 'key',
+        name: 'Key',
+        component: () => import('@/views/key/index'),
+        meta: { title: '密钥生成', icon: 'password' }
       }
     ]
   },
