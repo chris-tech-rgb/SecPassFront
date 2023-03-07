@@ -72,6 +72,7 @@ export default {
         password: ''
       },
       form: {
+        user: '',
         website: '',
         username: '',
         password: '',
@@ -81,7 +82,13 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.$store.dispatch('user/login', this.form)
+      this.$store.dispatch('password/submit', this.form).then(() => {
+      }).catch(() => {
+      })
+      this.form.website = ''
+      this.form.username = ''
+      this.form.password = ''
+      this.form.pin = ''
       this.$message('已提交')
     },
     onCancel() {
@@ -97,6 +104,7 @@ export default {
     authenticate() {
       this.$store.dispatch('user/login', this.loginForm).then(() => {
         this.$message('验证成功')
+        this.form.user = this.loginForm.username
         this.authentication = false
       }).catch(() => {
       })
