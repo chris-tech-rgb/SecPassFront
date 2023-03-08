@@ -84,11 +84,6 @@ export default {
       redirect: undefined
     }
   },
-  watch: {
-    $route: {
-      immediate: true
-    }
-  },
   methods: {
     showPwd() {
       if (this.passwordType === 'password') {
