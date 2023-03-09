@@ -132,7 +132,8 @@
             />
           </el-form-item>
           <div class="confirm">
-            <el-button @click="editCommit">提交</el-button>
+            <el-button type="primary" @click="editCommit">提交</el-button>
+            <el-button @click="onCancel">取消</el-button>
           </div>
         </el-form></div>
     </div>
@@ -239,7 +240,9 @@ export default {
       this.edition = true
     },
     editCommit() {
-      console.log(this.editForm)
+      this.edition = false
+    },
+    onCancel() {
       this.edition = false
     },
     remove() {
