@@ -11,8 +11,7 @@
           <img src="https://cdn-icons-png.flaticon.com/512/1691/1691940.png" class="user-avatar">
           <i class="el-icon-caret-bottom" />
         </div>
-        <!--suppress HtmlDeprecatedAttribute -->
-        <el-dropdown-menu slot="dropdown" class="user-dropdown">
+        <el-dropdown-menu>
           <router-link to="/">
             <el-dropdown-item>首页</el-dropdown-item>
           </router-link>

@@ -9,6 +9,7 @@
       border
       fit
       highlight-current-row
+      class="no-border"
     >
       <el-table-column align="center" label="网站">
         <!--suppress HtmlDeprecatedAttribute -->
@@ -46,6 +47,28 @@
           <span>{{ scope.row.safety }}</span>
         </template>
       </el-table-column>
+
+      <el-table-column align="center" width="60">
+        <!--suppress HtmlDeprecatedAttribute -->
+        <template slot-scope="scope">
+          <el-dropdown class="dropdown-container" trigger="click">
+            <div class="image-wrapper">
+              <img src="https://www.svgrepo.com/show/507793/more-vertical.svg" class="image" alt="">
+            </div>
+            <el-dropdown-menu>
+              <el-dropdown-item divided class="no-border" @click.native="copy(scope.row.password)">
+                <span style="display:block;">复制密码</span>
+              </el-dropdown-item>
+              <el-dropdown-item divided class="no-border" @click.native="edit(scope.row.website, scope.row.username, scope.row.uuid)">
+                <span style="display:block;">编辑密码</span>
+              </el-dropdown-item>
+              <el-dropdown-item divided class="no-border" @click.native="remove">
+                <span style="display:block;">移除</span>
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </template>
+      </el-table-column>
     </el-table>
 
     <div v-if="authentication" class="popup">
@@ -59,10 +82,64 @@
         </div>
       </div>
     </div>
+
+    <div v-if="edition" class="popup">
+      <div>
+        <div class="title-container">
+          <h3 class="title">编辑密码</h3>
+        </div>
+        <el-form ref="form" :model="editForm">
+          <el-form-item>
+            <el-input
+              v-model="editForm.website"
+              placeholder="网站"
+              type="text"
+              auto-complete="on"
+              clearable
+            />
+          </el-form-item>
+          <el-form-item>
+            <el-input
+              v-model="editForm.username"
+              type="text"
+              placeholder="用户名"
+              clearable
+            />
+          </el-form-item>
+          <el-form-item>
+            <el-input
+              v-model="editForm.old_password"
+              type="password"
+              placeholder="原密码"
+              clearable
+            />
+          </el-form-item>
+          <el-form-item>
+            <el-input
+              v-model="editForm.new_password"
+              type="password"
+              placeholder="新密码"
+              clearable
+            />
+          </el-form-item>
+          <el-form-item>
+            <el-input
+              v-model="editForm.pin"
+              type="password"
+              placeholder="PIN"
+              clearable
+              @keyup.enter.native="editCommit"
+            />
+          </el-form-item>
+          <div class="confirm">
+            <el-button @click="editCommit">提交</el-button>
+          </div>
+        </el-form></div>
+    </div>
   </div>
 </template>
 
-<!--suppress JSUnresolvedFunction, JSUnresolvedVariable -->
+<!--suppress JSUnresolvedFunction, JSUnresolvedVariable, JSUnusedLocalSymbols, JSValidateTypes, JSDeprecatedSymbols -->
 <script>
 import { getList } from '@/api/table'
 
@@ -82,9 +159,18 @@ export default {
       list: null,
       listLoading: true,
       authentication: true,
+      edition: false,
       pin: '',
       key_word: '',
-      original_list: null
+      original_list: null,
+      editForm: {
+        uuid: '',
+        website: '',
+        username: '',
+        old_password: '',
+        new_password: '',
+        pin: ''
+      }
     }
   },
   created() {
@@ -126,12 +212,47 @@ export default {
         }
         this.list = new_list
       }
+    },
+    copy(password) {
+      // Create new element
+      const el = document.createElement('textarea')
+      // Set value (string to be copied)
+      el.value = password
+      // Set non-editable to avoid focus and move outside of view
+      el.setAttribute('readonly', '')
+      el.style = { position: 'absolute', left: '-9999px' }
+      document.body.appendChild(el)
+      // Select text inside element
+      el.select()
+      // Copy text to clipboard
+      document.execCommand('copy')
+      // Remove temporary element
+      document.body.removeChild(el)
+    },
+    edit(website, username, uuid) {
+      this.editForm.uuid = uuid
+      this.editForm.website = website
+      this.editForm.username = username
+      this.editForm.old_password = ''
+      this.editForm.new_password = ''
+      this.editForm.pin = ''
+      this.edition = true
+    },
+    editCommit() {
+      console.log(this.editForm)
+      this.edition = false
+    },
+    remove() {
     }
   }
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+.no-border {
+  border: none;
+}
+
 .popup {
   position: absolute;
   top: 0;
@@ -157,7 +278,7 @@ export default {
 .title {
   font-size: 18px;
   color: gray;
-  margin: 0 auto 10px auto;
+  margin: 0 auto 15px auto;
   text-align: center;
   font-weight: bold;
 }
@@ -170,5 +291,29 @@ export default {
 .search {
   width: 570px;
   margin-bottom: 20px;
+}
+
+.dropdown-container {
+  margin-right: 30px;
+
+  .image-wrapper {
+    margin-top: 5px;
+    position: relative;
+
+    .image{
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+    }
+
+    .el-icon-caret-bottom {
+      cursor: pointer;
+      position: absolute;
+      right: -20px;
+      top: 25px;
+      font-size: 12px;
+    }
+  }
 }
 </style>

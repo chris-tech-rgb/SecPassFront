@@ -36,10 +36,9 @@
             <el-input
               v-model="loginForm.username"
               placeholder="用户名"
-              name="username"
               type="text"
-              tabindex="1"
               auto-complete="on"
+              clearable
             />
           </el-form-item>
           <el-form-item>
@@ -47,9 +46,7 @@
               v-model="loginForm.password"
               type="password"
               placeholder="密码"
-              name="password"
-              tabindex="2"
-              auto-complete="on"
+              clearable
               @keyup.enter.native="authenticate"
             />
           </el-form-item>

@@ -20,6 +20,7 @@
           name="username"
           type="text"
           tabindex="1"
+          clearable
           auto-complete="on"
         />
       </el-form-item>
@@ -37,6 +38,7 @@
           name="password"
           tabindex="2"
           auto-complete="on"
+          clearable
           @keyup.enter.native="handleLogin"
         />
         <span class="show-pwd" @click="showPwd">
