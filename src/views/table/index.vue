@@ -32,7 +32,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="最后更新日期" width="100">
+      <el-table-column align="center" label="最后更新日期" width="150">
         <!--suppress HtmlDeprecatedAttribute -->
         <template slot-scope="scope">
           <i class="el-icon-time" />
