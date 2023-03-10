@@ -7,3 +7,11 @@ export function submit(data) {
     data
   })
 }
+
+export function edit(data) {
+  return request({
+    url: '/form/update',
+    method: 'post',
+    data
+  })
+}

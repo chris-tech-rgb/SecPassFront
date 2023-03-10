@@ -48,7 +48,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" width="60">
+      <el-table-column v-if="editable" align="center" width="60">
         <!--suppress HtmlDeprecatedAttribute -->
         <template slot-scope="scope">
           <el-dropdown class="dropdown-container" trigger="click">
@@ -108,15 +108,7 @@
           </el-form-item>
           <el-form-item>
             <el-input
-              v-model="editForm.old_password"
-              type="password"
-              placeholder="原密码"
-              clearable
-            />
-          </el-form-item>
-          <el-form-item>
-            <el-input
-              v-model="editForm.new_password"
+              v-model="editForm.password"
               type="password"
               placeholder="新密码"
               clearable
@@ -132,7 +124,7 @@
             />
           </el-form-item>
           <div class="confirm">
-            <el-button type="primary" @click="editCommit">提交</el-button>
+            <el-button type="primary" @click="editCommit">提交并刷新</el-button>
             <el-button @click="onCancel">取消</el-button>
           </div>
         </el-form></div>
@@ -161,6 +153,7 @@ export default {
       listLoading: true,
       authentication: true,
       edition: false,
+      editable: true,
       pin: '',
       key_word: '',
       original_list: null,
@@ -168,8 +161,7 @@ export default {
         uuid: '',
         website: '',
         username: '',
-        old_password: '',
-        new_password: '',
+        password: '',
         pin: ''
       }
     }
@@ -192,10 +184,22 @@ export default {
           row.website = CryptoJS.AES.decrypt(row.website, this.pin).toString(CryptoJS.enc.Utf8)
           row.username = CryptoJS.AES.decrypt(row.username, this.pin).toString(CryptoJS.enc.Utf8)
           row.password = CryptoJS.AES.decrypt(row.password, this.pin).toString(CryptoJS.enc.Utf8)
+          if (row.website === '' || row.username === '' || row.password === '') {
+            this.editable = false
+            this.$message({
+              message: '不正确的PIN',
+              type: 'warning'
+            })
+          }
         } catch (error) {
           row.website = null
           row.username = null
           row.password = null
+          this.editable = false
+          this.$message({
+            message: '不正确的PIN',
+            type: 'warning'
+          })
         }
       }
       this.authentication = false
@@ -234,13 +238,16 @@ export default {
       this.editForm.uuid = uuid
       this.editForm.website = website
       this.editForm.username = username
-      this.editForm.old_password = ''
-      this.editForm.new_password = ''
+      this.editForm.password = ''
       this.editForm.pin = ''
       this.edition = true
     },
     editCommit() {
+      this.$store.dispatch('password/update', this.editForm).then(() => {
+      }).catch(() => {
+      })
       this.edition = false
+      window.location.reload()
     },
     onCancel() {
       this.edition = false
