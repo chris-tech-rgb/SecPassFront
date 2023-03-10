@@ -1,4 +1,4 @@
-import { submit, edit } from '@/api/form'
+import { submit, edit, remove } from '@/api/form'
 
 function assess(password) {
   let safety = '🔴'
@@ -45,6 +45,16 @@ const actions = {
     const safety = assess(password)
     return new Promise((resolve, reject) => {
       edit({ uuid: uuid, website: encrypted_website, username: encrypted_username, password: encrypted_password, safety: safety }).then(() => {
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
+  // delete password
+  delete(_, passwordInfo) {
+    const { uuid } = passwordInfo
+    return new Promise((resolve, reject) => {
+      remove({ uuid: uuid }).then(() => {
       }).catch(error => {
         reject(error)
       })

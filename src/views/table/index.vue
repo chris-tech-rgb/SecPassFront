@@ -62,7 +62,7 @@
               <el-dropdown-item divided class="no-border" @click.native="edit(scope.row.website, scope.row.username, scope.row.uuid)">
                 <span style="display:block;">编辑密码</span>
               </el-dropdown-item>
-              <el-dropdown-item divided class="no-border" @click.native="remove">
+              <el-dropdown-item divided class="no-border" @click.native="remove(scope.row.uuid)">
                 <span style="display:block;">移除</span>
               </el-dropdown-item>
             </el-dropdown-menu>
@@ -71,7 +71,7 @@
       </el-table-column>
     </el-table>
 
-    <div v-if="authentication" class="popup">
+    <div v-if="verify" class="popup">
       <div>
         <div class="title-container">
           <h3 class="title">身份验证</h3>
@@ -129,6 +129,80 @@
           </div>
         </el-form></div>
     </div>
+
+    <div v-if="authentication" class="popup">
+      <div>
+        <div class="title-container">
+          <h3 class="title">身份验证</h3>
+        </div>
+        <el-form ref="form" :model="loginForm">
+          <el-form-item>
+            <el-input
+              v-model="loginForm.username"
+              placeholder="用户名"
+              type="text"
+              auto-complete="on"
+              clearable
+            />
+          </el-form-item>
+          <el-form-item>
+            <el-input
+              v-model="loginForm.password"
+              type="password"
+              placeholder="密码"
+              clearable
+              @keyup.enter.native="authenticate"
+            />
+          </el-form-item>
+          <div class="confirm">
+            <el-button @click="authenticate">确认</el-button>
+          </div>
+        </el-form>
+      </div>
+    </div>
+
+    <div v-if="removing" class="popup">
+      <div>
+        <div class="title-container">
+          <h3 class="title">移除密码</h3>
+        </div>
+        <div class="confirm">
+          <el-button type="primary" @click="removeCommit">确认并刷新</el-button>
+          <el-button @click="cancelRemoving">取消</el-button>
+        </div>
+      </div>
+    </div>
+
+    <div v-if="removing_authentication" class="popup">
+      <div>
+        <div class="title-container">
+          <h3 class="title">身份验证</h3>
+        </div>
+        <el-form ref="form" :model="loginForm">
+          <el-form-item>
+            <el-input
+              v-model="loginForm.username"
+              placeholder="用户名"
+              type="text"
+              auto-complete="on"
+              clearable
+            />
+          </el-form-item>
+          <el-form-item>
+            <el-input
+              v-model="loginForm.password"
+              type="password"
+              placeholder="密码"
+              clearable
+              @keyup.enter.native="removingAuthenticate"
+            />
+          </el-form-item>
+          <div class="confirm">
+            <el-button @click="removingAuthenticate">确认</el-button>
+          </div>
+        </el-form>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -151,9 +225,10 @@ export default {
     return {
       list: null,
       listLoading: true,
-      authentication: true,
+      verify: true,
       edition: false,
       editable: true,
+      removing: false,
       pin: '',
       key_word: '',
       original_list: null,
@@ -163,7 +238,16 @@ export default {
         username: '',
         password: '',
         pin: ''
-      }
+      },
+      authentication: false,
+      loginForm: {
+        username: '',
+        password: ''
+      },
+      removeForm: {
+        uuid: ''
+      },
+      removing_authentication: false
     }
   },
   created() {
@@ -202,7 +286,7 @@ export default {
           })
         }
       }
-      this.authentication = false
+      this.verify = false
       this.original_list = this.list
     },
     search() {
@@ -240,19 +324,49 @@ export default {
       this.editForm.username = username
       this.editForm.password = ''
       this.editForm.pin = ''
-      this.edition = true
+      this.authentication = true
     },
     editCommit() {
       this.$store.dispatch('password/update', this.editForm).then(() => {
       }).catch(() => {
       })
-      this.edition = false
       window.location.reload()
     },
     onCancel() {
       this.edition = false
     },
-    remove() {
+    authenticate() {
+      this.$store.dispatch('user/login', this.loginForm).then(() => {
+        this.$message('验证成功')
+        this.loginForm.username = ''
+        this.loginForm.password = ''
+        this.authentication = false
+        this.edition = true
+      }).catch(() => {
+      })
+    },
+    remove(uuid) {
+      this.removeForm.uuid = uuid
+      this.removing_authentication = true
+    },
+    removeCommit() {
+      this.$store.dispatch('password/delete', this.removeForm).then(() => {
+      }).catch(() => {
+      })
+      window.location.reload()
+    },
+    cancelRemoving() {
+      this.removing = false
+    },
+    removingAuthenticate() {
+      this.$store.dispatch('user/login', this.loginForm).then(() => {
+        this.$message('验证成功')
+        this.loginForm.username = ''
+        this.loginForm.password = ''
+        this.removing_authentication = false
+        this.removing = true
+      }).catch(() => {
+      })
     }
   }
 }

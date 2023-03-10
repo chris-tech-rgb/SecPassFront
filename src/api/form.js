@@ -15,3 +15,11 @@ export function edit(data) {
     data
   })
 }
+
+export function remove(data) {
+  return request({
+    url: '/form/delete',
+    method: 'post',
+    data
+  })
+}
