@@ -124,7 +124,7 @@
             />
           </el-form-item>
           <div class="confirm">
-            <el-button type="primary" @click="editCommit">提交并刷新</el-button>
+            <el-button type="primary" @click="editCommit">提交</el-button>
             <el-button @click="onCancel">取消</el-button>
           </div>
         </el-form></div>
@@ -167,7 +167,7 @@
           <h3 class="title">移除密码</h3>
         </div>
         <div class="confirm">
-          <el-button type="primary" @click="removeCommit">确认并刷新</el-button>
+          <el-button type="primary" @click="removeCommit">确认</el-button>
           <el-button @click="cancelRemoving">取消</el-button>
         </div>
       </div>
@@ -330,7 +330,9 @@ export default {
       this.$store.dispatch('password/update', this.editForm).then(() => {
       }).catch(() => {
       })
-      window.location.reload()
+      this.edition = false
+      this.$message('已编辑，请刷新后查看')
+      this.editable = false
     },
     onCancel() {
       this.edition = false
@@ -353,7 +355,9 @@ export default {
       this.$store.dispatch('password/delete', this.removeForm).then(() => {
       }).catch(() => {
       })
-      window.location.reload()
+      this.edition = false
+      this.$message('已移除，请刷新后查看')
+      this.editable = false
     },
     cancelRemoving() {
       this.removing = false
