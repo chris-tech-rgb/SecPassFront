@@ -355,7 +355,7 @@ export default {
       this.$store.dispatch('password/delete', this.removeForm).then(() => {
       }).catch(() => {
       })
-      this.edition = false
+      this.removing = false
       this.$message('已移除，请刷新后查看')
       this.editable = false
     },
