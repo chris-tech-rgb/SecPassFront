@@ -110,6 +110,7 @@
             <el-input
               v-model="editForm.password"
               type="password"
+              show-password
               placeholder="新密码"
               clearable
             />
@@ -118,6 +119,7 @@
             <el-input
               v-model="editForm.pin"
               type="password"
+              show-password
               placeholder="PIN"
               clearable
               @keyup.enter.native="editCommit"
@@ -149,6 +151,7 @@
             <el-input
               v-model="loginForm.password"
               type="password"
+              show-password
               placeholder="密码"
               clearable
               @keyup.enter.native="authenticate"
@@ -192,6 +195,7 @@
             <el-input
               v-model="loginForm.password"
               type="password"
+              show-password
               placeholder="密码"
               clearable
               @keyup.enter.native="removingAuthenticate"
