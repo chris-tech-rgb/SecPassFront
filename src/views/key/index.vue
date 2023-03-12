@@ -24,11 +24,37 @@
         <el-switch v-model="password_form.exclude" />
       </el-form-item>
       <el-form-item v-if="key_type_selected.password" label="结果">
-        <el-input v-model="password_form.output" type="textarea" />
+        <el-input v-model="password_form.output" type="textarea" autosize />
       </el-form-item>
       <el-form-item v-if="key_type_selected.password">
         <el-button type="primary" @click="create">生成</el-button>
         <el-button @click="copy(password_form.output)">复制</el-button>
+      </el-form-item>
+      <!-- type: rsa -->
+      <el-form-item v-if="key_type_selected.rsa" label="功能">
+        <el-radio-group v-model="rsa_form.func" @change="rsaFunc">
+          <el-radio label="密钥对生成" />
+          <el-radio label="加密" />
+          <el-radio label="解密" />
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item v-if="key_type_selected.rsa && rsa_form.func_selected.key_pair" label="密钥长度">
+        <el-select v-model="rsa_form.length">
+          <el-option label="512" value="512" />
+          <el-option label="1024" value="1024" />
+          <el-option label="2048" value="2048" />
+        </el-select>
+      </el-form-item>
+      <el-form-item v-if="key_type_selected.rsa && rsa_form.func_selected.key_pair" label="公钥">
+        <el-input v-model="rsa_form.key_pair.public_key" type="textarea" autosize />
+      </el-form-item>
+      <el-form-item v-if="key_type_selected.rsa && rsa_form.func_selected.key_pair" label="私钥">
+        <el-input v-model="rsa_form.key_pair.private_key" type="textarea" autosize />
+      </el-form-item>
+      <el-form-item v-if="key_type_selected.rsa && rsa_form.func_selected.key_pair">
+        <el-button type="primary" @click="rsaKeyPair">生成</el-button>
+        <el-button @click="copy(rsa_form.key_pair.public_key)">复制公钥</el-button>
+        <el-button @click="copy(rsa_form.key_pair.private_key)">复制私钥</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -50,6 +76,19 @@ export default {
         type: ['数字', '小写字母', '大写字母', '特殊符号'],
         exclude: false,
         output: ''
+      },
+      rsa_form: {
+        length: '1024',
+        func: '密钥对生成',
+        func_selected: {
+          key_pair: true,
+          encrypt: false,
+          decrypt: false
+        },
+        key_pair: {
+          public_key: '',
+          private_key: ''
+        }
       }
     }
   },
@@ -120,6 +159,33 @@ export default {
         }
         this.password_form.output = result
       }
+    },
+    rsaFunc() {
+      this.rsa_form.key_pair.public_key = ''
+      this.rsa_form.key_pair.private_key = ''
+      switch (this.rsa_form.func) {
+        case '密钥对生成':
+          this.rsa_form.func_selected.key_pair = true
+          this.rsa_form.func_selected.encrypt = false
+          this.rsa_form.func_selected.decrypt = false
+          break
+        case '加密':
+          this.rsa_form.func_selected.key_pair = false
+          this.rsa_form.func_selected.encrypt = true
+          this.rsa_form.func_selected.decrypt = false
+          break
+        case '解密':
+          this.rsa_form.func_selected.key_pair = false
+          this.rsa_form.func_selected.encrypt = false
+          this.rsa_form.func_selected.decrypt = true
+          break
+      }
+    },
+    rsaKeyPair() {
+      const NodeRSA = require('node-rsa')
+      const key = new NodeRSA({ b: parseInt(this.rsa_form.length) })
+      this.rsa_form.key_pair.public_key = key.exportKey('public')
+      this.rsa_form.key_pair.private_key = key.exportKey('pkcs8')
     },
     copy(key) {
       if (key.length > 0) {
