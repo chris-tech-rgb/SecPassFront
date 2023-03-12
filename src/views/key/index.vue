@@ -1,79 +1,129 @@
 <template>
   <div class="app-container">
-    <el-input v-model="filterText" placeholder="Filter keyword" style="margin-bottom:30px;" />
-
-    <!--suppress HtmlUnknownBooleanAttribute -->
-    <el-tree
-      ref="tree2"
-      :data="data2"
-      :props="defaultProps"
-      :filter-node-method="filterNode"
-      class="filter-tree"
-      default-expand-all
-    />
-
+    <el-form ref="form" label-width="120px">
+      <el-form-item label="密钥类型">
+        <el-select v-model="key_type" @change="onChange">
+          <el-option label="密码" value="password" />
+          <el-option label="RSA" value="rsa" />
+          <el-option label="AES" value="aes" />
+        </el-select>
+      </el-form-item>
+      <!-- type: password -->
+      <el-form-item v-if="key_type_selected.password" label="密码长度">
+        <el-input-number v-model="password_form.length" />
+      </el-form-item>
+      <el-form-item v-if="key_type_selected.password" label="密码组成">
+        <el-checkbox-group v-model="password_form.type">
+          <el-checkbox label="数字" />
+          <el-checkbox label="小写字母" />
+          <el-checkbox label="大写字母" />
+          <el-checkbox label="特殊符号" />
+        </el-checkbox-group>
+      </el-form-item>
+      <el-form-item v-if="key_type_selected.password" label="排除易混淆字符">
+        <el-switch v-model="password_form.exclude" />
+      </el-form-item>
+      <el-form-item label="结果">
+        <el-input v-model="output" type="textarea" />
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="create">生成</el-button>
+        <el-button @click="copy">复制</el-button>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
 <script>
 export default {
-
   data() {
     return {
-      filterText: '',
-      data2: [{
-        id: 1,
-        label: 'Level one 1',
-        children: [{
-          id: 4,
-          label: 'Level two 1-1',
-          children: [{
-            id: 9,
-            label: 'Level three 1-1-1'
-          }, {
-            id: 10,
-            label: 'Level three 1-1-2'
-          }]
-        }]
-      }, {
-        id: 2,
-        label: 'Level one 2',
-        children: [{
-          id: 5,
-          label: 'Level two 2-1'
-        }, {
-          id: 6,
-          label: 'Level two 2-2'
-        }]
-      }, {
-        id: 3,
-        label: 'Level one 3',
-        children: [{
-          id: 7,
-          label: 'Level two 3-1'
-        }, {
-          id: 8,
-          label: 'Level two 3-2'
-        }]
-      }],
-      defaultProps: {
-        children: 'children',
-        label: 'label'
-      }
+      key_type: 'password',
+      key_type_selected: {
+        password: true,
+        rsa: false,
+        aes: false
+      },
+      password_form: {
+        length: 16,
+        type: ['数字', '小写字母', '大写字母', '特殊符号'],
+        exclude: false
+      },
+      output: ''
     }
   },
-  watch: {
-    filterText(val) {
-      this.$refs.tree2.filter(val)
-    }
-  },
-
   methods: {
-    filterNode(value, data) {
-      if (!value) return true
-      return data.label.indexOf(value) !== -1
-    }
+    onChange() {
+      this.output = ''
+      switch (this.key_type) {
+        case 'password':
+          this.key_type_selected.password = true
+          this.key_type_selected.rsa = false
+          this.key_type_selected.aes = false
+          break
+        case 'rsa':
+          this.key_type_selected.password = false
+          this.key_type_selected.rsa = true
+          this.key_type_selected.aes = false
+          break
+        case 'aes':
+          this.key_type_selected.password = false
+          this.key_type_selected.rsa = false
+          this.key_type_selected.aes = true
+          break
+      }
+    },
+    create() {
+      let result = ''
+      const numbers = '23456789'
+      const lowercase = 'abcdefghjkmnpqrstuvwxyz'
+      const uppercase = 'ABCDEFGHJKMNPQRSTUVWXYZ'
+      const special = '!@#$%^&*_+=?'
+      const similar_numbers = '10'
+      const similar_lowercase = 'ilo'
+      const similar_uppercase = 'ILO'
+      const similar_special = '(){}[]/\\\'\"`~,;:.<>|-'
+      let characters = ''
+      if (this.password_form.type.length > 0 && this.password_form.length > 0) {
+        if (this.password_form.exclude) {
+          if (this.password_form.type.includes('数字')) {
+            characters += numbers
+          }
+          if (this.password_form.type.includes('小写字母')) {
+            characters += lowercase
+          }
+          if (this.password_form.type.includes('大写字母')) {
+            characters += uppercase
+          }
+          if (this.password_form.type.includes('特殊符号')) {
+            characters += special
+          }
+        } else {
+          if (this.password_form.type.includes('数字')) {
+            characters += numbers + similar_numbers
+          }
+          if (this.password_form.type.includes('小写字母')) {
+            characters += lowercase + similar_lowercase
+          }
+          if (this.password_form.type.includes('大写字母')) {
+            characters += uppercase + similar_uppercase
+          }
+          if (this.password_form.type.includes('特殊符号')) {
+            characters += special + similar_special
+          }
+        }
+        let counter = 0
+        while (counter < this.password_form.length) {
+          result += characters.charAt(Math.floor(Math.random() * characters.length))
+          counter += 1
+        }
+        this.output = result
+      }
+    },
+    copy() {}
   }
 }
 </script>
 
+<style scoped>
+</style>
