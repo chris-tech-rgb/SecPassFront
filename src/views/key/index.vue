@@ -82,11 +82,44 @@
         <el-button type="primary" @click="decrypt">生成</el-button>
         <el-button @click="copy(rsa_form.message.output)">复制</el-button>
       </el-form-item>
+      <!-- type: aes -->
+      <el-form-item v-if="key_type_selected.aes" label="功能">
+        <el-radio-group v-model="aes_form.func" @change="aesFunc">
+          <el-radio label="加密" />
+          <el-radio label="解密" />
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item v-if="key_type_selected.aes && aes_form.func_selected.encrypt" label="明文">
+        <el-input v-model="aes_form.message.plain" type="textarea" autosize />
+      </el-form-item>
+      <el-form-item v-if="key_type_selected.aes && aes_form.func_selected.encrypt" label="密钥">
+        <el-input v-model="aes_form.key" type="textarea" autosize />
+      </el-form-item>
+      <el-form-item v-if="key_type_selected.aes && aes_form.func_selected.encrypt" label="结果">
+        <el-input v-model="aes_form.message.output" type="textarea" autosize />
+      </el-form-item>
+      <el-form-item v-if="key_type_selected.aes && aes_form.func_selected.encrypt">
+        <el-button type="primary" @click="aesEncrypt">生成</el-button>
+        <el-button @click="copy(aes_form.message.output)">复制</el-button>
+      </el-form-item>
+      <el-form-item v-if="key_type_selected.aes && aes_form.func_selected.decrypt" label="密文">
+        <el-input v-model="aes_form.message.encrypted" type="textarea" autosize />
+      </el-form-item>
+      <el-form-item v-if="key_type_selected.aes && aes_form.func_selected.decrypt" label="密钥">
+        <el-input v-model="aes_form.key" type="textarea" autosize />
+      </el-form-item>
+      <el-form-item v-if="key_type_selected.aes && aes_form.func_selected.decrypt" label="结果">
+        <el-input v-model="aes_form.message.output" type="textarea" autosize />
+      </el-form-item>
+      <el-form-item v-if="key_type_selected.aes && aes_form.func_selected.decrypt">
+        <el-button type="primary" @click="aesDecrypt">生成</el-button>
+        <el-button @click="copy(aes_form.message.output)">复制</el-button>
+      </el-form-item>
     </el-form>
   </div>
 </template>
 
-<!--suppress JSValidateTypes, JSDeprecatedSymbols -->
+<!--suppress JSValidateTypes, JSDeprecatedSymbols, JSUnresolvedVariable -->
 <script>
 
 export default {
@@ -105,17 +138,30 @@ export default {
         output: ''
       },
       rsa_form: {
-        length: '1024',
         func: '密钥对生成',
         func_selected: {
           key_pair: true,
           encrypt: false,
           decrypt: false
         },
+        length: '1024',
         key_pair: {
           public_key: '',
           private_key: ''
         },
+        message: {
+          plain: '',
+          encrypted: '',
+          output: ''
+        }
+      },
+      aes_form: {
+        func: '加密',
+        func_selected: {
+          encrypt: true,
+          decrypt: false
+        },
+        key: '',
         message: {
           plain: '',
           encrypted: '',
@@ -224,16 +270,60 @@ export default {
     },
     encrypt() {
       if (this.rsa_form.message.plain.length > 0 && this.rsa_form.key_pair.public_key.length > 0) {
-        const NodeRSA = require('node-rsa')
-        const key = new NodeRSA(this.rsa_form.key_pair.public_key)
-        this.rsa_form.message.output = key.encrypt(this.rsa_form.message.plain, 'base64', 'utf8')
+        try {
+          const NodeRSA = require('node-rsa')
+          const key = new NodeRSA(this.rsa_form.key_pair.public_key)
+          this.rsa_form.message.output = key.encrypt(this.rsa_form.message.plain, 'base64', 'utf8')
+        } catch (error) {
+          this.rsa_form.message.output = '出错了'
+        }
       }
     },
     decrypt() {
       if (this.rsa_form.message.encrypted.length > 0 && this.rsa_form.key_pair.private_key.length > 0) {
-        const NodeRSA = require('node-rsa')
-        const key = new NodeRSA(this.rsa_form.key_pair.private_key)
-        this.rsa_form.message.output = key.decrypt(this.rsa_form.message.encrypted, 'buffer')
+        try {
+          const NodeRSA = require('node-rsa')
+          const key = new NodeRSA(this.rsa_form.key_pair.private_key)
+          this.rsa_form.message.output = key.decrypt(this.rsa_form.message.encrypted, 'buffer')
+        } catch (error) {
+          this.rsa_form.message.output = '出错了'
+        }
+      }
+    },
+    aesFunc() {
+      this.aes_form.message.plain = ''
+      this.aes_form.message.encrypted = ''
+      this.aes_form.message.output = ''
+      this.aes_form.key = ''
+      switch (this.aes_form.func) {
+        case '加密':
+          this.aes_form.func_selected.encrypt = true
+          this.aes_form.func_selected.decrypt = false
+          break
+        case '解密':
+          this.aes_form.func_selected.encrypt = false
+          this.aes_form.func_selected.decrypt = true
+          break
+      }
+    },
+    aesEncrypt() {
+      const CryptoJS = require('crypto-js')
+      try {
+        if (this.aes_form.message.plain.length > 0 && this.aes_form.key.length > 0) {
+          this.aes_form.message.output = CryptoJS.AES.encrypt(this.aes_form.message.plain, this.aes_form.key).toString()
+        }
+      } catch (error) {
+        this.aes_form.message.output = '出错了'
+      }
+    },
+    aesDecrypt() {
+      const CryptoJS = require('crypto-js')
+      try {
+        if (this.aes_form.message.encrypted.length > 0 && this.aes_form.key.length > 0) {
+          this.aes_form.message.output = CryptoJS.AES.decrypt(this.aes_form.message.encrypted, this.aes_form.key).toString(CryptoJS.enc.Utf8)
+        }
+      } catch (error) {
+        this.aes_form.message.output = '出错了'
       }
     },
     copy(key) {
