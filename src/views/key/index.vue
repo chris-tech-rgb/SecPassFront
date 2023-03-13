@@ -56,12 +56,39 @@
         <el-button @click="copy(rsa_form.key_pair.public_key)">复制公钥</el-button>
         <el-button @click="copy(rsa_form.key_pair.private_key)">复制私钥</el-button>
       </el-form-item>
+      <el-form-item v-if="key_type_selected.rsa && rsa_form.func_selected.encrypt" label="明文">
+        <el-input v-model="rsa_form.message.plain" type="textarea" autosize />
+      </el-form-item>
+      <el-form-item v-if="key_type_selected.rsa && rsa_form.func_selected.encrypt" label="公钥">
+        <el-input v-model="rsa_form.key_pair.public_key" type="textarea" autosize />
+      </el-form-item>
+      <el-form-item v-if="key_type_selected.rsa && rsa_form.func_selected.encrypt" label="结果">
+        <el-input v-model="rsa_form.message.output" type="textarea" autosize />
+      </el-form-item>
+      <el-form-item v-if="key_type_selected.rsa && rsa_form.func_selected.encrypt">
+        <el-button type="primary" @click="encrypt">生成</el-button>
+        <el-button @click="copy(rsa_form.message.output)">复制</el-button>
+      </el-form-item>
+      <el-form-item v-if="key_type_selected.rsa && rsa_form.func_selected.decrypt" label="密文">
+        <el-input v-model="rsa_form.message.encrypted" type="textarea" autosize />
+      </el-form-item>
+      <el-form-item v-if="key_type_selected.rsa && rsa_form.func_selected.decrypt" label="私钥">
+        <el-input v-model="rsa_form.key_pair.private_key" type="textarea" autosize />
+      </el-form-item>
+      <el-form-item v-if="key_type_selected.rsa && rsa_form.func_selected.decrypt" label="结果">
+        <el-input v-model="rsa_form.message.output" type="textarea" autosize />
+      </el-form-item>
+      <el-form-item v-if="key_type_selected.rsa && rsa_form.func_selected.decrypt">
+        <el-button type="primary" @click="decrypt">生成</el-button>
+        <el-button @click="copy(rsa_form.message.output)">复制</el-button>
+      </el-form-item>
     </el-form>
   </div>
 </template>
 
 <!--suppress JSValidateTypes, JSDeprecatedSymbols -->
 <script>
+
 export default {
   data() {
     return {
@@ -88,6 +115,11 @@ export default {
         key_pair: {
           public_key: '',
           private_key: ''
+        },
+        message: {
+          plain: '',
+          encrypted: '',
+          output: ''
         }
       }
     }
@@ -163,6 +195,9 @@ export default {
     rsaFunc() {
       this.rsa_form.key_pair.public_key = ''
       this.rsa_form.key_pair.private_key = ''
+      this.rsa_form.message.plain = ''
+      this.rsa_form.message.encrypted = ''
+      this.rsa_form.message.output = ''
       switch (this.rsa_form.func) {
         case '密钥对生成':
           this.rsa_form.func_selected.key_pair = true
@@ -186,6 +221,20 @@ export default {
       const key = new NodeRSA({ b: parseInt(this.rsa_form.length) })
       this.rsa_form.key_pair.public_key = key.exportKey('public')
       this.rsa_form.key_pair.private_key = key.exportKey('pkcs8')
+    },
+    encrypt() {
+      if (this.rsa_form.message.plain.length > 0 && this.rsa_form.key_pair.public_key.length > 0) {
+        const NodeRSA = require('node-rsa')
+        const key = new NodeRSA(this.rsa_form.key_pair.public_key)
+        this.rsa_form.message.output = key.encrypt(this.rsa_form.message.plain, 'base64', 'utf8')
+      }
+    },
+    decrypt() {
+      if (this.rsa_form.message.encrypted.length > 0 && this.rsa_form.key_pair.private_key.length > 0) {
+        const NodeRSA = require('node-rsa')
+        const key = new NodeRSA(this.rsa_form.key_pair.private_key)
+        this.rsa_form.message.output = key.decrypt(this.rsa_form.message.encrypted, 'buffer')
+      }
     },
     copy(key) {
       if (key.length > 0) {
