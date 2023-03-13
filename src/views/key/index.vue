@@ -6,6 +6,7 @@
           <el-option label="密码" value="password" />
           <el-option label="RSA" value="rsa" />
           <el-option label="AES" value="aes" />
+          <el-option label="MD5" value="md5" />
         </el-select>
       </el-form-item>
       <!-- type: password -->
@@ -115,6 +116,17 @@
         <el-button type="primary" @click="aesDecrypt">生成</el-button>
         <el-button @click="copy(aes_form.message.output)">复制</el-button>
       </el-form-item>
+      <!-- type: md5 -->
+      <el-form-item v-if="key_type_selected.md5" label="消息">
+        <el-input v-model="md5_form.message" type="textarea" autosize />
+      </el-form-item>
+      <el-form-item v-if="key_type_selected.md5" label="结果">
+        <el-input v-model="md5_form.output" type="textarea" autosize />
+      </el-form-item>
+      <el-form-item v-if="key_type_selected.md5">
+        <el-button type="primary" @click="md5">生成</el-button>
+        <el-button @click="copy(md5_form.output)">复制</el-button>
+      </el-form-item>
     </el-form>
   </div>
 </template>
@@ -129,7 +141,8 @@ export default {
       key_type_selected: {
         password: true,
         rsa: false,
-        aes: false
+        aes: false,
+        md5: false
       },
       password_form: {
         length: 16,
@@ -167,27 +180,50 @@ export default {
           encrypted: '',
           output: ''
         }
+      },
+      md5_form: {
+        message: '',
+        output: ''
       }
     }
   },
   methods: {
     onChange() {
       this.password_form.output = ''
+      this.rsa_form.key_pair.public_key = ''
+      this.rsa_form.key_pair.private_key = ''
+      this.rsa_form.message.plain = ''
+      this.rsa_form.message.encrypted = ''
+      this.rsa_form.message.output = ''
+      this.aes_form.message.plain = ''
+      this.aes_form.message.encrypted = ''
+      this.aes_form.message.output = ''
+      this.md5_form.message = ''
+      this.md5_form.output = ''
       switch (this.key_type) {
         case 'password':
           this.key_type_selected.password = true
           this.key_type_selected.rsa = false
           this.key_type_selected.aes = false
+          this.key_type_selected.md5 = false
           break
         case 'rsa':
           this.key_type_selected.password = false
           this.key_type_selected.rsa = true
           this.key_type_selected.aes = false
+          this.key_type_selected.md5 = false
           break
         case 'aes':
           this.key_type_selected.password = false
           this.key_type_selected.rsa = false
           this.key_type_selected.aes = true
+          this.key_type_selected.md5 = false
+          break
+        case 'md5':
+          this.key_type_selected.password = false
+          this.key_type_selected.rsa = false
+          this.key_type_selected.aes = false
+          this.key_type_selected.md5 = true
           break
       }
     },
@@ -324,6 +360,12 @@ export default {
         }
       } catch (error) {
         this.aes_form.message.output = '出错了'
+      }
+    },
+    md5() {
+      if (this.md5_form.message.length > 0) {
+        const md5 = require('md5')
+        this.md5_form.output = md5(this.md5_form.message)
       }
     },
     copy(key) {
